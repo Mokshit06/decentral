@@ -8,6 +8,9 @@
 // ├─┬ dist
 // │ └── index.html    > Electron-Renderer
 //
+
+// import IPFS from "ipfs-core";
+
 process.env.DIST_ELECTRON = join(__dirname, "../..");
 process.env.DIST = join(process.env.DIST_ELECTRON, "../dist");
 process.env.PUBLIC = app.isPackaged
@@ -16,7 +19,16 @@ process.env.PUBLIC = app.isPackaged
 
 import { app, BrowserWindow, shell, ipcMain, dialog } from "electron";
 import { release } from "os";
-import { join } from "path";
+import { join, resolve } from "path";
+import {
+  getWhatsappQrCode,
+  loginTwitter,
+  scrapeTwitter,
+  scrapeWhatsapp,
+  twitterChatsFor,
+  whatsappChatsFor,
+} from "./scraper";
+import { createBrowser } from "./singletons";
 
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith("6.1")) app.disableHardwareAcceleration();
@@ -29,7 +41,17 @@ if (!app.requestSingleInstanceLock()) {
   process.exit(0);
 }
 
-app.setAsDefaultProtocolClient("text-app");
+const isDev = process.env.NODE_ENV == "development";
+
+if (process.defaultApp) {
+  if (process.argv.length >= 2) {
+    app.setAsDefaultProtocolClient("text-app", process.execPath, [
+      resolve(process.argv[1]),
+    ]);
+  }
+} else {
+  app.setAsDefaultProtocolClient("text-app");
+}
 
 let win: BrowserWindow | null = null;
 // Here, you can also use other preload
@@ -48,6 +70,8 @@ async function createWindow() {
     },
   });
 
+  await createBrowser();
+
   if (process.env.VITE_DEV_SERVER_URL) {
     // electron-vite-vue#298
     win.loadURL(url);
@@ -62,6 +86,39 @@ async function createWindow() {
     win?.webContents.send("main-process-message", new Date().toLocaleString());
   });
 
+  ipcMain.on("get-whatsapp-qr", async (event) => {
+    event.sender.send("receive-whatsapp-qr", await getWhatsappQrCode());
+  });
+
+  ipcMain.on("load-chats", async (event) => {
+    const contacts = await scrapeWhatsapp();
+
+    event.sender.send("chats-loaded", contacts);
+  });
+
+  ipcMain.on("load-single-chat", async (event, [type, arg]) => {
+    let chats =
+      type === "whatsapp" ? await whatsappChatsFor(arg) : twitterChatsFor(arg);
+    console.log({ chats });
+
+    event.sender.send("single-chat-loaded", chats);
+  });
+
+  ipcMain.on("connect-twitter", async (event, arg) => {
+    await loginTwitter(arg[0], arg[1]);
+
+    const messages = await scrapeTwitter();
+
+    event.sender.send("twitter-connected", messages);
+  });
+
+  ipcMain.on("store-ipfs", async (event, arg) => {
+    // const node = await IPFS.create();
+    // const results = await node.add(arg);
+    // results.cid.toString();
+    // event.returnValue = ""
+  });
+
   // Make all links open with the browser, not with the application
   win.webContents.setWindowOpenHandler(({ url }) => {
     if (url.startsWith("https:")) shell.openExternal(url);
@@ -72,6 +129,8 @@ async function createWindow() {
 app.whenReady().then(createWindow);
 
 app.on("open-url", (event, url) => {
+  event.preventDefault();
+  console.log({ url });
   dialog.showErrorBox("Welcome Back", `You arrived from: ${url}`);
 });
 

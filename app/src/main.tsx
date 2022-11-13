@@ -1,13 +1,22 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App'
-import './samples/node-api'
-import 'styles/index.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./samples/node-api";
+import { ChakraProvider, extendTheme, ThemeConfig } from "@chakra-ui/react";
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+const theme = extendTheme({
+  config: {
+    initialColorMode: "dark",
+    useSystemColorMode: false,
+  } as ThemeConfig,
+});
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <App />
+    <ChakraProvider theme={theme}>
+      <App />
+    </ChakraProvider>
   </React.StrictMode>
-)
+);
 
-postMessage({ payload: 'removeLoading' }, '*')
+postMessage({ payload: "removeLoading" }, "*");

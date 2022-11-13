@@ -2,8 +2,46 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: spotify-circular, sans-serif;
+}
+
+@font-face {
+  font-display: swap;
+  font-family: spotify-circular;
+  font-style: normal;
+  font-weight: 200;
+  src: url(https://open.scdn.co/cdn/fonts/CircularSpUIv3T-Light.afd9ab26.woff2)
+      format('woff2'),
+    url(https://open.scdn.co/cdn/fonts/CircularSpUIv3T-Light.2a78c017.woff)
+      format('woff'),
+    url(https://open.scdn.co/cdn/fonts/CircularSpUIv3T-Light.89e4be2e.ttf)
+      format('truetype');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: spotify-circular;
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://open.scdn.co/cdn/fonts/CircularSpUIv3T-Book.3466e0ec.woff2)
+      format('woff2'),
+    url(https://open.scdn.co/cdn/fonts/CircularSpUIv3T-Book.ea8d19db.woff)
+      format('woff'),
+    url(https://open.scdn.co/cdn/fonts/CircularSpUIv3T-Book.a357677a.ttf)
+      format('truetype');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: spotify-circular;
+  font-style: normal;
+  font-weight: 700;
+  src: url(https://open.scdn.co/cdn/fonts/CircularSpUIv3T-Bold.8d0a45cc.woff2)
+      format('woff2'),
+    url(https://open.scdn.co/cdn/fonts/CircularSpUIv3T-Bold.10e93738.woff)
+      format('woff'),
+    url(https://open.scdn.co/cdn/fonts/CircularSpUIv3T-Bold.7eb7d0f7.ttf)
+      format('truetype');
 }
 
 a {
@@ -13,4 +51,182 @@ a {
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.cover {
+  background-color: #0e1012;
+  /* height: 80vh; */
+}
+
+.image {
+  background-repeat: none;
+  background-size: cover;
+  background-position: center;
+  background-image: url('/cover.jpg');
+  height: 80vh;
+}
+
+.image div {
+  height: 100%;
+  padding: 1rem;
+  width: 100%;
+  backdrop-filter: blur(5px) saturate(120%);
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  color: white;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.image h1 {
+  font-size: 4.8rem;
+  margin-bottom: 24px;
+  font-weight: 700;
+}
+
+.image p {
+  font-size: 1.8rem;
+  line-height: 1.7;
+  text-align: center;
+  font-weight: 400;
+  color: #e3e7ee;
+  margin-bottom: 32px;
+}
+
+.link {
+  background-color: #007afc;
+  border-radius: 50px;
+  font-size: 1.4rem;
+  padding: 0.8rem 2.3rem;
+  border: none;
+}
+
+.why-solution {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 40vh;
+  padding: 100px 40px 40px;
+}
+
+.why-solution h2 {
+  font-weight: 700;
+  font-size: 2.4rem;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.why-solution p {
+  max-width: 900px;
+  color: #9ba2b2;
+  line-height: 1.6;
+  font-size: 22px;
+  text-align: center;
+  font-weight: 400;
+}
+
+.features {
+  padding: 100px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6rem;
+}
+
+.flex {
+  max-width: 1100px;
+  display: flex;
+  gap: 84px;
+  flex-wrap: wrap;
+}
+
+.flex-image {
+  width: 50%;
+}
+
+.flex-image img {
+  max-width: 100%;
+  border-radius: 15px;
+}
+
+.flex-info {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.flex-info h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.flex-info p {
+  margin-bottom: 0;
+  color: #9ba2b2;
+  font-size: 20px;
+  line-height: 1.6em;
+  font-weight: 400;
+  white-space: normal;
+}
+
+.try-wrapper {
+  padding: 90px 40px;
+}
+
+.try-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  border-radius: 15px;
+  flex-direction: column;
+  padding: 4rem 2rem;
+  align-items: center;
+  text-align: center;
+  background-image: url('/bg-pattern.svg');
+  background-color: #15181b;
+  background-size: cover;
+  background-position: center;
+}
+
+.try-text {
+  max-width: 520px;
+}
+
+.try-container h2 {
+  color: white;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.try-container p {
+  color: #9ba2b2;
+  font-size: 1.3rem;
+  line-height: 1.5;
+}
+
+.try-container a {
+  display: inline-block;
+  color: white;
+  padding: 0.7rem 2rem;
+  font-size: 1rem;
+  margin-top: 24px;
+}
+
+@media (max-width: 1000px) {
+  .flex-image {
+    width: 100%;
+  }
+
+  .flex-info {
+    width: 100%;
+  }
 }
