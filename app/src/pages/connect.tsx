@@ -259,11 +259,12 @@ function QrCode() {
 
   useEffect(() => {
     ipcRenderer.send("get-whatsapp-qr");
+    let timeout;
 
     ipcRenderer.on("receive-whatsapp-qr", (e, arg) => {
       setQrCode(arg);
 
-      setTimeout(() => {
+      timeout = setTimeout(() => {
         ipcRenderer.send("load-chats");
       }, 6000);
     });
@@ -272,6 +273,10 @@ function QrCode() {
       localStorage.setItem("whatsapp-texts", JSON.stringify(arg));
       navigate("/chat");
     });
+
+    return () => {
+      if (timeout) clearInterval(timeout);
+    };
   }, []);
 
   if (!qrCode)

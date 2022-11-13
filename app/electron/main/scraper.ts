@@ -32,7 +32,9 @@ export async function getWhatsappQrCode() {
 export async function scrapeWhatsapp() {
   await pages.whatsapp.goto("https://web.whatsapp.com");
 
-  await pages.whatsapp.waitForSelector("div[data-testid=chat-list]");
+  await pages.whatsapp.waitForSelector("div[data-testid=chat-list]", {
+    timeout: 20000,
+  });
 
   await timeout(4000);
 
@@ -188,7 +190,7 @@ export async function twitterChatsFor(username: string) {
 
   span.click();
 
-  await pages.twitter.waitForSelector('div[data-testid=DmScrollerContainer]');
+  await pages.twitter.waitForSelector("div[data-testid=DmScrollerContainer]");
 
-  return []
+  return [];
 }

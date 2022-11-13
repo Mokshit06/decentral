@@ -98,8 +98,10 @@ async function createWindow() {
 
   ipcMain.on("load-single-chat", async (event, [type, arg]) => {
     let chats =
-      type === "whatsapp" ? await whatsappChatsFor(arg) : twitterChatsFor(arg);
-    console.log({ chats });
+      type === "whatsapp"
+        ? await whatsappChatsFor(arg)
+        : await twitterChatsFor(arg);
+    console.log({ chats: typeof chats });
 
     event.sender.send("single-chat-loaded", chats);
   });

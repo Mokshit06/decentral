@@ -4,14 +4,6 @@
 {
   appId: "YourAppID",
   productName: "YourAppName",
-  build: {
-    protocols: [
-      {
-        name: "text-app",
-        schemes: ["text-app"],
-      },
-    ],
-  },
   copyright: "Copyright © 2022 ${author}",
   asar: true,
   directories: {
